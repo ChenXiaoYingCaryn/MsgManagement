@@ -1,0 +1,21 @@
+server:
+  port: 8088
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://159.75.110.59:3306/msg_management?characterEncoding=UTF-8&useSSL=true&serverTimezone=UTC
+    username: msg_management
+    password: YCcPeHE2KrC5DRSD
+  data:
+    mongodb:
+      host: 159.75.110.59
+      port: 27017
+      database: msg_management
+      username: msg_management
+      password: msg_management
+      field-naming-strategy: org.springframework.data.mapping.model.SnakeCaseFieldNamingStrategy
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
