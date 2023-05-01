@@ -1,7 +1,6 @@
 package com.example.msgmanagementdemo.dao;
 
 import com.example.msgmanagementdemo.pojo.po.NodePo;
-import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -10,7 +9,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Queue;
+import java.util.regex.Pattern;
 
 /**
  * @author xiaoying
@@ -22,6 +21,22 @@ public class NodeDao {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    /**
+     * 根据名字查询节点信息
+     * @param name
+     * @return
+     */
+    public List<NodePo> queryNodeByName(String name){
+        Query query = new Query();
+        String regex = String.format("%s%s%s", "^.*", name, ".*$");
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+
+        query.addCriteria(Criteria.where("name").regex(pattern));
+        query.addCriteria(Criteria.where("is_deleted").is(0));
+        List<NodePo> res = mongoTemplate.find(query, NodePo.class);
+        return res;
+    }
 
     /**
      * 新增节点

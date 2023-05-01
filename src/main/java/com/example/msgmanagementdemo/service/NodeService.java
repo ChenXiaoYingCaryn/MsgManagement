@@ -1,5 +1,6 @@
 package com.example.msgmanagementdemo.service;
 
+import com.example.msgmanagementdemo.pojo.dto.FindNodeByNameDto;
 import com.example.msgmanagementdemo.pojo.po.NodePo;
 import com.example.msgmanagementdemo.pojo.vo.NodeVo;
 
@@ -10,6 +11,8 @@ import java.util.List;
  * @create 2023/3/20 15:45
  */
 public interface NodeService {
+
+    List<NodePo> findByNodeName(FindNodeByNameDto dto);
 
     List<NodeVo> findByUserId(String userId);
 

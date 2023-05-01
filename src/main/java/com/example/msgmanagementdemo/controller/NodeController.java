@@ -2,10 +2,7 @@ package com.example.msgmanagementdemo.controller;
 
 import com.example.msgmanagementdemo.common.CommonResult;
 import com.example.msgmanagementdemo.factory.NodeFactory;
-import com.example.msgmanagementdemo.pojo.dto.CreateNodeDto;
-import com.example.msgmanagementdemo.pojo.dto.DeleteNodeDto;
-import com.example.msgmanagementdemo.pojo.dto.FindTreeByUserIdDto;
-import com.example.msgmanagementdemo.pojo.dto.UpdateNodeDto;
+import com.example.msgmanagementdemo.pojo.dto.*;
 import com.example.msgmanagementdemo.pojo.po.NodePo;
 import com.example.msgmanagementdemo.pojo.vo.NodeVo;
 import com.example.msgmanagementdemo.service.NodeService;
@@ -30,6 +27,17 @@ public class NodeController {
 
     @Autowired
     private NodeService nodeService;
+
+    @PostMapping("/FindByNodeName")
+    public CommonResult<List<NodePo>> findByNodeName(@RequestBody FindNodeByNameDto dto){
+        List<NodePo> res = new ArrayList<>();
+        try{
+            res = nodeService.findByNodeName(dto);
+        }catch (Exception e){
+            return CommonResult.failed(e.getMessage());
+        }
+        return CommonResult.success(res);
+    }
 
     @PostMapping("/FindByUserId")
     public CommonResult<List<NodeVo>> findByUserId(@RequestBody FindTreeByUserIdDto dto){

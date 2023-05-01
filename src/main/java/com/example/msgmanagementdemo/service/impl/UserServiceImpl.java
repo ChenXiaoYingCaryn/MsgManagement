@@ -8,9 +8,6 @@ import com.example.msgmanagementdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * @author xiaoying
  * @create 2023/3/8

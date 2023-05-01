@@ -2,6 +2,7 @@ package com.example.msgmanagementdemo.service.impl;
 
 import com.example.msgmanagementdemo.dao.NodeDao;
 import com.example.msgmanagementdemo.factory.NodeFactory;
+import com.example.msgmanagementdemo.pojo.dto.FindNodeByNameDto;
 import com.example.msgmanagementdemo.pojo.po.NodePo;
 import com.example.msgmanagementdemo.pojo.vo.NodeVo;
 import com.example.msgmanagementdemo.service.NodeService;
@@ -21,6 +22,17 @@ public class NodeServiceImpl implements NodeService {
 
     @Autowired
     private NodeDao nodeDao;
+
+    @Override
+    public List<NodePo> findByNodeName(FindNodeByNameDto dto) {
+        List<NodePo> res;
+        try {
+            res = nodeDao.queryNodeByName(dto.getName());
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+        return res;
+    }
 
     @Override
     public List<NodeVo> findByUserId(String userId) {
