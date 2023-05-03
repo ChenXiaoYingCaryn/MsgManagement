@@ -9,9 +9,8 @@ import com.example.msgmanagementdemo.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import javax.xml.soap.Node;
+import java.util.*;
 
 /**
  * @author xiaoying
@@ -24,12 +23,15 @@ public class NodeServiceImpl implements NodeService {
     private NodeDao nodeDao;
 
     @Override
-    public List<NodePo> findByNodeName(FindNodeByNameDto dto) {
-        List<NodePo> res;
-        try {
-            res = nodeDao.queryNodeByName(dto.getName());
-        }catch (Exception e){
-            throw new RuntimeException(e.getMessage());
+    public List<NodeVo> findByNodeName(FindNodeByNameDto dto) {
+        List<NodeVo> NodeVoList = findByUserId(dto.getUserId());
+        List<NodeVo> res = new ArrayList<>();
+
+        for(NodeVo vo : NodeVoList){
+            List<NodeVo> list = getNodeByName(vo, dto.getName());
+            if(!list.isEmpty()){
+                res.addAll(list);
+            }
         }
         return res;
     }
@@ -125,5 +127,37 @@ public class NodeServiceImpl implements NodeService {
             }
         }
         return vo;
+    }
+
+    // 通过名字获取节点
+    public List<NodeVo> getNodeByName(NodeVo vo, String name){
+        List<NodeVo> res = new ArrayList<>();
+        Queue<NodeVo> queue = new ArrayDeque<>();
+        if(vo == null){
+            return res;
+        }
+        queue.offer(vo);
+        while(!queue.isEmpty()){
+            int len = queue.size();
+            List<NodeVo> list = new ArrayList<>();
+            for (int i = 0; i < len; i++) {
+                NodeVo node = queue.poll();
+                if(judgeName(node.getName(), name)){
+                    res.add(node);
+                }
+                if(node.getChildrenList() != null){
+                    for(NodeVo v : node.getChildrenList()){
+                        queue.offer(v);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    // 使用正则判断名字是否符合
+    public boolean judgeName(String nodeName, String inputName){
+        String regex = String.format("%s%s%s", ".*", inputName, ".*");
+        return nodeName.matches(regex);
     }
 }

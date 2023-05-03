@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FindNodeByNameDto {
     String name;
+    String userId;
 }

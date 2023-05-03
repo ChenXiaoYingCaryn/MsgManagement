@@ -29,8 +29,8 @@ public class NodeController {
     private NodeService nodeService;
 
     @PostMapping("/FindByNodeName")
-    public CommonResult<List<NodePo>> findByNodeName(@RequestBody FindNodeByNameDto dto){
-        List<NodePo> res = new ArrayList<>();
+    public CommonResult<List<NodeVo>> findByNodeName(@RequestBody FindNodeByNameDto dto){
+        List<NodeVo> res;
         try{
             res = nodeService.findByNodeName(dto);
         }catch (Exception e){

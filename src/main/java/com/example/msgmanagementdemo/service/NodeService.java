@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface NodeService {
 
-    List<NodePo> findByNodeName(FindNodeByNameDto dto);
+    List<NodeVo> findByNodeName(FindNodeByNameDto dto);
 
     List<NodeVo> findByUserId(String userId);
 
